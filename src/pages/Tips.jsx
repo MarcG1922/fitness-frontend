@@ -17,19 +17,19 @@ function Tips() {
   return (
     <div>
       <h1>Tips de ejercicios</h1>
-      {tips.map((t, i) => (
+      {tips.map((tip, i) => (
         <div key={i} style={{ border: "1px solid gray", margin: "5px", padding: "5px" }}>
-          <h4>{t.exercise} ({t.objective})</h4>
-          <p>{t.tip}</p>
+          <h4>{tip.exercise} ({tip.objective})</h4>
+          <p>{tip.tip}</p>
           <iframe 
             width="250" 
             height="150" 
-            src={t.video} 
-            title={t.exercise} 
+            src={tip.video} 
+            title={tip.exercise} 
             frameBorder="0" 
             allowFullScreen
           ></iframe>
-        </div>
+        </div>  
       ))}
     </div>
   );
