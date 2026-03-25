@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../api/axios";
+import Navbar from "../components/Navbar";
 
 function CreateTraining() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const selectedDay = queryParams.get("day");
 
   const [type, setType] = useState("");
   const [notes, setNotes] = useState("");
@@ -12,11 +17,6 @@ function CreateTraining() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-
-    if (!type) {
-      alert("Por favor, ingresa el tipo de entrenamiento");
-      return;
-    }
 
     try {
       await api.post(
@@ -31,38 +31,39 @@ function CreateTraining() {
         }
       );
 
-      setType("");
-      setNotes("");
-
-      alert("Entrenamiento creado correctamente");
       navigate("/dashboard");
 
     } catch (error) {
       console.log(error);
-      alert("Error al crear entrenamiento");
     }
   };
 
   return (
-    <div>
+    <div className="container">
+      <Navbar />
+
       <h1>Crear Entrenamiento</h1>
+
+      {selectedDay && (
+        <p>Entrenamiento para: <strong>{selectedDay}</strong></p>
+      )}
 
       <form onSubmit={handleCreate}>
         <input
           type="text"
-          placeholder="Tipo (Push, Pull, Pierna...)"
+          placeholder="Tipo (Push, Pull...)"
           value={type}
           onChange={(e) => setType(e.target.value)}
           required
         />
-        <br />
+
         <input
           type="text"
-          placeholder="Notas opcionales"
+          placeholder="Notas"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
-        <br />
+
         <button type="submit">Crear</button>
       </form>
     </div>

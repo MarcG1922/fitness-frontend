@@ -3,19 +3,20 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import CreateTraining from "./pages/CreateTraining";
 import Tips from "./pages/Tips";
+import DayView from "./pages/DayView";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Navbar from "./components/Navbar";
-
+import "./App.css";
+import Register from "./pages/Register";
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+<Route path="/register" element={<Register />} />
 
       <Route
         path="/dashboard"
         element={
           <ProtectedRoute>
-           
             <Dashboard />
           </ProtectedRoute>
         }
@@ -25,7 +26,6 @@ function App() {
         path="/create"
         element={
           <ProtectedRoute>
-            <Navbar />
             <CreateTraining />
           </ProtectedRoute>
         }
@@ -35,8 +35,16 @@ function App() {
         path="/tips"
         element={
           <ProtectedRoute>
-            <Navbar />
             <Tips />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/day/:day"
+        element={
+          <ProtectedRoute>
+            <DayView />
           </ProtectedRoute>
         }
       />

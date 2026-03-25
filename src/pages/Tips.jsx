@@ -15,10 +15,10 @@ function Tips() {
   ];
 
   return (
-    <div>
+    <div className="container">
       <h1>Tips de ejercicios</h1>
       {tips.map((tip, i) => (
-        <div key={i} style={{ border: "1px solid gray", margin: "5px", padding: "5px" }}>
+        <div key={i} className="card">
           <h4>{tip.exercise} ({tip.objective})</h4>
           <p>{tip.tip}</p>
           <iframe 

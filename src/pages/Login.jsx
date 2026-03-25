@@ -55,6 +55,16 @@ function Login() {
         />
 
         <button type="submit">Entrar</button>
+
+        <p>
+  ¿No tienes cuenta?{" "}
+  <span
+    style={{ color: "#00ff88", cursor: "pointer" }}
+    onClick={() => navigate("/register")}
+  >
+    Regístrate
+  </span>
+</p>
       </form>
     </div>
   );
