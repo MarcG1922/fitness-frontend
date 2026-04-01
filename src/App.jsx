@@ -1,54 +1,65 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import CreateTraining from "./pages/CreateTraining";
 import Tips from "./pages/Tips";
 import DayView from "./pages/DayView";
+import BodyProgress from "./pages/BodyProgress";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
 import "./App.css";
-import Register from "./pages/Register";
 function App() {
+  const location = useLocation();
+
+  const hideNavbarRoutes = ["/", "/register"];
+
+  const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
+
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-<Route path="/register" element={<Register />} />
+    <>
+      {shouldShowNavbar && <Navbar />}
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/create"
-        element={
-          <ProtectedRoute>
-            <CreateTraining />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/tips"
-        element={
-          <ProtectedRoute>
-            <Tips />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/tips"
+          element={
+            <ProtectedRoute>
+              <Tips />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/day/:day"
-        element={
-          <ProtectedRoute>
-            <DayView />
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path="/day/:day"
+          element={
+            <ProtectedRoute>
+              <DayView />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/body-progress"
+          element={
+            <ProtectedRoute>
+              <BodyProgress />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

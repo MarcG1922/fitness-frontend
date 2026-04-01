@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
-import Navbar from "../components/Navbar";
+
 
 function DayView() {
   const { day } = useParams();
@@ -78,7 +78,6 @@ function DayView() {
 
   return (
     <div className="container">
-      <Navbar />
 
       <h1>{day}</h1>
 
@@ -103,12 +102,12 @@ function DayView() {
 
       <hr />
 
-      <h3>Añadir entrenamiento</h3>
+      <h3>Añadir ejercicio</h3>
 
       <form onSubmit={handleCreate}>
         <input
           type="text"
-          placeholder="Tipo (Push, Pull...)"
+          placeholder="Tipo (Press, sentadilla...)"
           value={type}
           onChange={(e) => setType(e.target.value)}
           required
@@ -116,7 +115,7 @@ function DayView() {
 
         <input
           type="text"
-          placeholder="Notas"
+          placeholder="series, repeticiones, peso, etc"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />

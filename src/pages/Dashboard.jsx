@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import Navbar from "../components/Navbar";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -31,13 +30,24 @@ function Dashboard() {
     return days[date.getDay()];
   };
 
+  const getMostFrequentType = () => {
+    if (trainings.length === 0) return "Ninguno";
+
+    const count = {};
+    trainings.forEach(t => {
+      count[t.type] = (count[t.type] || 0) + 1;
+    });
+
+    return Object.keys(count).reduce((a, b) =>
+      count[a] > count[b] ? a : b
+    );
+  };
+
   const daysOfWeek = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
   const trainedDays = trainings.map(t => getDayName(t.date));
 
   return (
     <div className="container">
-      <Navbar />
-
       <h1>Dashboard</h1>
       <h2>Bienvenido, {user?.name}</h2>
 
@@ -71,19 +81,31 @@ function Dashboard() {
 
       <hr />
 
-      <h3>Mis entrenamientos</h3>
+      <h3>Resumen de actividad</h3>
 
-      {trainings.length === 0 ? (
-        <p>No tienes entrenamientos</p>
-      ) : (
-        trainings.map((training) => (
-          <div key={training._id} className="card">
-            <h4>{training.type}</h4>
-            <p>{training.notes}</p>
-            <p><strong>Día:</strong> {getDayName(training.date)}</p>
-          </div>
-        ))
-      )}
+      <div className="card">
+        <p><strong>Total entrenamientos:</strong> {trainings.length}</p>
+
+      <p>
+  <strong>Días entrenados esta semana:</strong>{" "}
+  {
+    (() => {
+      const today = new Date();
+      const weekTrainings = trainings.filter(t => {
+        const trainingDate = new Date(t.date);
+        const diff = (today - trainingDate) / (1000 * 60 * 60 * 24);
+        return diff <= 7;
+      });
+      const uniqueDays = [...new Set(weekTrainings.map(t => new Date(t.date).toDateString()))];
+      return uniqueDays.length;
+    })()
+  }
+</p>
+
+        <p>
+          <strong>Tipo más repetido:</strong> {getMostFrequentType()}
+        </p>
+      </div>
     </div>
   );
 }

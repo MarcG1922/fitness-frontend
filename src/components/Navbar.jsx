@@ -12,8 +12,8 @@ function Navbar() {
   return (
     <nav style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
       <Link to="/dashboard">Dashboard</Link>
-      <Link to="/create">Crear Entrenamiento</Link>
       <Link to="/tips">Tips</Link>
+      <Link to="/body-progress">Progreso corporal</Link>
       <button onClick={handleLogout}>Cerrar sesión</button>
     </nav>
   );

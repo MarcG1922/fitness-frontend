@@ -12,8 +12,21 @@ function CreateTraining() {
 
   const [type, setType] = useState("");
   const [notes, setNotes] = useState("");
+  const [date, setDate] = useState("");
 
   const token = localStorage.getItem("token");
+
+  const dayToDate = (dayName) => {
+    if (!dayName) return new Date();
+    const today = new Date();
+    const todayDay = today.getDay();
+    const days = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+    const targetDay = days.indexOf(dayName);
+    let diff = targetDay - todayDay;
+    const targetDate = new Date();
+    targetDate.setDate(today.getDate() + diff);
+    return targetDate;
+  };
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -24,7 +37,8 @@ function CreateTraining() {
         {
           type,
           notes,
-          exercises: []
+          exercises: [],
+          date: date || dayToDate(selectedDay)
         },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -51,7 +65,7 @@ function CreateTraining() {
       <form onSubmit={handleCreate}>
         <input
           type="text"
-          placeholder="Tipo (Push, Pull...)"
+          placeholder="Ejercicio (Prensa, Curl, etc.)"
           value={type}
           onChange={(e) => setType(e.target.value)}
           required
@@ -59,9 +73,14 @@ function CreateTraining() {
 
         <input
           type="text"
-          placeholder="Notas"
+          placeholder="Repes, series, peso, etc."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
+        />
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
         />
 
         <button type="submit">Crear</button>
